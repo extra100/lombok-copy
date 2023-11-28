@@ -330,26 +330,6 @@ const PenjualanPageKledo = () => {
               alignItems: 'center',
             }}
           >
-            <Button
-              style={{
-                display: 'flex',
-                height: 30,
-                justifyContent: 'center',
-                alignItems: 'center',
-                background: '#138D75',
-                width: '50%',
-                borderRadius: 0,
-                border: 0,
-              }}
-              onClick={klikPindah}
-            >
-              <AiOutlinePlus
-                style={{
-                  marginRight: '10px',
-                }}
-              />
-              Tambah Tagihan
-            </Button>
             <div
               style={{
                 flex: '1',

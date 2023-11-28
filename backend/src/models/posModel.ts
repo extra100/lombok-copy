@@ -34,7 +34,9 @@ export class Pos {
   // @prop({ required: true })
   // public via!: string
 
-  @prop({ required: true })
+  // @prop({ required: true })
+  // public tag!: string[]
+  @prop({ type: () => [String], required: true })
   public tag!: string[]
 }
 export const PosModel = getModelForClass(Pos)

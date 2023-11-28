@@ -33,7 +33,9 @@ export class Beli {
   public jenis_pajak!: string
   @prop({ required: true })
   public sumber!: string
-  @prop({ required: true })
+  @prop({ type: () => [String], required: true })
   public tag!: string[]
+  // @prop({ required: true })
+  // public tag!: string[]
 }
 export const BeliModel = getModelForClass(Beli)

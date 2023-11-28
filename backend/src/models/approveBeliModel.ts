@@ -57,7 +57,9 @@ export class ApproveBeli {
   @prop({ required: true })
   public jenis_pajak!: string
 
-  @prop({ required: true })
+  // @prop({ required: true })
+  // public tag!: string[]
+  @prop({ type: () => [String], required: true })
   public tag!: string[]
 }
 export const ApproveBeliModel = getModelForClass(ApproveBeli)

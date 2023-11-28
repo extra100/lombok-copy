@@ -192,11 +192,11 @@ const Akunai: React.FC = () => {
     }))
   }
 
-  // const handleInputChange = (index: number, key: string, value: any) => {
-  //   const newDataRows = [...dataRows]
-  //   newDataRows[index][key] = value
-  //   setDataRows(newDataRows)
-  // }
+  const handleInputChange = (index: number, key: string, value: any) => {
+    const newDataRows = [...dataRows]
+    newDataRows[index][key] = value
+    setDataRows(newDataRows)
+  }
   const handleInputTag = (value: string) => {
     setInputValue(value)
   }
@@ -301,7 +301,7 @@ const Akunai: React.FC = () => {
       render: (text: any, record: Akuna, index: number) => (
         <Input
           value={text}
-          // onChange={(e) => handleInputChange(index, 'jumlah', e.target.value)}
+          onChange={(e) => handleInputChange(index, 'jumlah', e.target.value)}
           style={{ width: 150 }}
         />
       ),
@@ -313,7 +313,7 @@ const Akunai: React.FC = () => {
       render: (text: string, record: Akuna, index: number) => (
         <Input
           value={text}
-          // onChange={(e) => handleInputChange(index, 'ket', e.target.value)}
+          onChange={(e) => handleInputChange(index, 'ket', e.target.value)}
           style={{ width: 150 }}
         />
       ),
@@ -823,7 +823,7 @@ const Akunai: React.FC = () => {
                   setSelectedTags(newTags)
                 }
               }}
-              // onSearch={handleInputChange}
+              onSearch={handleInputChange}
               onBlur={handleSaveTag}
               dropdownRender={(menu) => (
                 <div>

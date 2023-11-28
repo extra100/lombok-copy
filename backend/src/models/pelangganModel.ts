@@ -8,8 +8,8 @@ export class Pelanggan {
   @prop({ required: true })
   public id_pelanggan!: string
   @prop({ required: true })
-  public type_kontak!: string[]
-  @prop({ required: true })
+  // public type_kontak!: string[]
+  // @prop({ required: true })
   public id_harga!: string
   @prop({ required: true })
   public nama!: string
@@ -39,6 +39,8 @@ export class Pelanggan {
   public koordinat!: string
   @prop({ required: true })
   public tanggal!: string
+  @prop({ type: () => [String], required: true })
+  public type_kontak!: string[]
 }
 
 export const PelangganModel = getModelForClass(Pelanggan)
