@@ -23,7 +23,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"],
-    "module": "CommonJS", // Menggunakan CommonJS untuk modul Node.js
+    "module": "CommonJS",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
