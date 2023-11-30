@@ -1,5 +1,5 @@
 {
-  "name": "lombok",
+  "name": "bima",
   "version": "1.0.0",
   "description": "## Lessons",
   "main": "index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/extra100/lombok.git"
+    "url": "git+https://github.com/artnurul/bima.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/extra100/lombok/issues"
+    "url": "https://github.com/artnurul/bima/issues"
   },
-  "homepage": "https://github.com/extra100/lombok#readme",
+  "homepage": "https://github.com/artnurul/bima#readme",
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
