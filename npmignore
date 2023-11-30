@@ -1,0 +1,11 @@
+# Exclude build directory
+/build
+
+# Exclude configuration files
+/config
+
+# Exclude test files
+/tests
+
+# Exclude specific files
+*.log
