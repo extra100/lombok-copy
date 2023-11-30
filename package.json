@@ -1,12 +1,13 @@
-
-
 {
   "name": "lombok",
   "version": "1.0.0",
   "description": "A description of your project",
   "main": "index.js",
-  "files": [".npmignore", "src", "lib"], 
-
+  "files": [
+    ".npmignore",
+    "src",
+    "lib"
+  ],
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix backend\"  \"npm run dev --prefix frontend\" ",
     "build": "cd backend && npm install && npm run build  && cd ../frontend && npm install && npm run build",
@@ -20,7 +21,7 @@
   "author": "Your Name <your.email@example.com>",
   "license": "ISC",
   "engines": {
-    "node": ">=19.6.0"
+    "node": ">=18.18.2"
   },
   "bugs": {
     "url": "https://github.com/extra100/lombok/issues"
@@ -59,4 +60,3 @@
     "yargs-parser": "^21.1.1"
   }
 }
-
