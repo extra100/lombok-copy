@@ -31,7 +31,6 @@
     "concurrently": "^8.2.2"
   },
   "dependencies": {
-    "ansi-regex": "^5.0.1",
     "ansi-styles": "^4.3.0",
     "chalk": "^4.1.2",
     "cliui": "^8.0.1",

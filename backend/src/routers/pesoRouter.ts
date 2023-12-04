@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
+import { PesoModel } from 'models/pesoModel'
 
 import { v4 as uuidv4 } from 'uuid'
-import { PesoModel } from '../models/PesoModel'
 
 export const pesoRouter = express.Router()
 
