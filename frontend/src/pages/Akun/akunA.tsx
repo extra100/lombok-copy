@@ -823,7 +823,7 @@ const Akunai: React.FC = () => {
                   setSelectedTags(newTags)
                 }
               }}
-              onSearch={handleInputChange}
+              // onSearch={handleInputChange}
               onBlur={handleSaveTag}
               dropdownRender={(menu) => (
                 <div>
