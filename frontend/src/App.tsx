@@ -12,12 +12,9 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Store } from './Store'
-import { useGetCategoriesQuery } from './hooks/productHooks'
-import LoadingBox from './components/LoadingBox'
-import MessageBox from './components/MessageBox'
 import { getError } from './utils'
 import { ApiError } from './types/ApiError'
-import SearchBox from './components/SearchBox'
+
 import {
   AiFillAndroid,
   AiFillApi,
@@ -34,7 +31,7 @@ import {
 import { UserInfo } from './types/UserInfo'
 import UserContext from './contexts/UserContext'
 import { UserInfoContextType } from './types/UserInfoContext'
-import PrintComponent from './pages/printcoba/PrintComponent'
+
 import axios from 'axios'
 import { Table } from 'antd'
 
@@ -88,8 +85,6 @@ function App() {
     marginRight: '10px',
   }
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false)
-
-  const { data: categories, isLoading, error } = useGetCategoriesQuery()
 
   const handleDataSupplierClick = () => {
     setSidebarIsOpen(false)
@@ -267,7 +262,10 @@ function App() {
                       <Link to="/cart" className="nav-link header-link p-0">
                         {
                           <span className="cart-badge">
-                            {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                            {cart.cartItems.reduce(
+                              (a: any, c: any) => a + c.quantity,
+                              0
+                            )}
                           </span>
                         }
                         <svg
@@ -356,131 +354,96 @@ function App() {
                 </Button>
               </div>
             </ListGroup.Item>
-            {isLoading ? (
-              <LoadingBox />
-            ) : error ? (
-              <MessageBox variant="danger">
-                {getError(error as ApiError)}
-              </MessageBox>
-            ) : (
-              <>
-                {/* Daftar Kategori */}
-                {categories!.map((category) => (
-                  <ListGroup.Item action key={category}>
-                    <LinkContainer
-                      to={{
-                        pathname: '/search',
-                        search: `category=${category}`,
-                      }}
-                      onClick={() => setSidebarIsOpen(false)}
-                    >
-                      <Nav.Link>{category}</Nav.Link>
-                    </LinkContainer>
-                  </ListGroup.Item>
-                ))}
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineBgColors size={20} style={iconStyle} />
-                  <LinkContainer
-                    to="/product"
-                    onClick={handleDataSupplierClick}
-                  >
-                    <NavDropdown.Item>Data Product</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineBgColors size={20} style={iconStyle} />
-                  <LinkContainer to="/multi" onClick={handleDataSupplierClick}>
-                    <NavDropdown.Item>Multi Harga</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineBgColors size={20} style={iconStyle} />
-                  <LinkContainer to="/mutasi" onClick={handleDataSupplierClick}>
-                    <NavDropdown.Item>Data Mutasi</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
 
-                {/* Data Supplier */}
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineBgColors size={20} style={iconStyle} />
-                  <LinkContainer
-                    to="/supplier"
-                    onClick={handleDataSupplierClick}
-                  >
-                    <NavDropdown.Item>Data Supplier</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineBgColors size={20} style={iconStyle} />
+              <LinkContainer to="/product" onClick={handleDataSupplierClick}>
+                <NavDropdown.Item>Data Product</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineBgColors size={20} style={iconStyle} />
+              <LinkContainer to="/multi" onClick={handleDataSupplierClick}>
+                <NavDropdown.Item>Multi Harga</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineBgColors size={20} style={iconStyle} />
+              <LinkContainer to="/mutasi" onClick={handleDataSupplierClick}>
+                <NavDropdown.Item>Data Mutasi</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
 
-                <ListGroup.Item style={listItemStyle}>
-                  <AiFillApi size={20} style={iconStyle} />
-                  <LinkContainer to="/kind" onClick={handleDataKategoriClick}>
-                    <NavDropdown.Item>Kategori</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
+            {/* Data Supplier */}
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineBgColors size={20} style={iconStyle} />
+              <LinkContainer to="/supplier" onClick={handleDataSupplierClick}>
+                <NavDropdown.Item>Data Supplier</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
 
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineReddit size={20} style={iconStyle} />
-                  <LinkContainer
-                    to="/pelanggan"
-                    onClick={handleDataKategoriClick}
-                  >
-                    <NavDropdown.Item>Pelanggan</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiFillApi size={20} style={iconStyle} />
+              <LinkContainer to="/kind" onClick={handleDataKategoriClick}>
+                <NavDropdown.Item>Kategori</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
 
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineDollar size={20} style={iconStyle} />
-                  <LinkContainer to="/harga" onClick={handleDataHargaClick}>
-                    <NavDropdown.Item>Harga</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineReddit size={20} style={iconStyle} />
+              <LinkContainer to="/pelanggan" onClick={handleDataKategoriClick}>
+                <NavDropdown.Item>Pelanggan</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
 
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineSave size={20} style={iconStyle} />
-                  <LinkContainer to="/outlet" onClick={handleDataOutletClick}>
-                    <NavDropdown.Item>Data Telolet</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineDollar size={20} style={iconStyle} />
+              <LinkContainer to="/harga" onClick={handleDataHargaClick}>
+                <NavDropdown.Item>Harga</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
 
-                <ListGroup.Item style={listItemStyle}>
-                  <AiFillAndroid size={20} style={iconStyle} />
-                  <LinkContainer to="/usaha" onClick={handleDataUsahaClick}>
-                    <NavDropdown.Item>Data Usaha</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineSave size={20} style={iconStyle} />
+              <LinkContainer to="/outlet" onClick={handleDataOutletClick}>
+                <NavDropdown.Item>Data Telolet</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
 
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineHtml5 size={20} style={iconStyle} />
-                  <LinkContainer to="/satuan" onClick={handleDataSatuanClick}>
-                    <NavDropdown.Item>Data Satuan</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiFillAndroid size={20} style={iconStyle} />
+              <LinkContainer to="/usaha" onClick={handleDataUsahaClick}>
+                <NavDropdown.Item>Data Usaha</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
 
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineSketch size={20} style={iconStyle} />
-                  <LinkContainer to="/stok" onClick={handleDataStokClick}>
-                    <NavDropdown.Item>Data Stok</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineHtml5 size={20} style={iconStyle} />
+              <LinkContainer to="/satuan" onClick={handleDataSatuanClick}>
+                <NavDropdown.Item>Data Satuan</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
 
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineShop size={20} style={iconStyle} />
-                  <LinkContainer
-                    to="/transaksi"
-                    onClick={handleDataTransaksiClick}
-                  >
-                    <NavDropdown.Item>Data Transaksi</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineSketch size={20} style={iconStyle} />
+              <LinkContainer to="/stok" onClick={handleDataStokClick}>
+                <NavDropdown.Item>Data Stok</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
 
-                <ListGroup.Item style={listItemStyle}>
-                  <AiOutlineShop size={20} style={iconStyle} />
-                  <LinkContainer to="/pos" onClick={handleDataTransaksiClick}>
-                    <NavDropdown.Item>pos</NavDropdown.Item>
-                  </LinkContainer>
-                </ListGroup.Item>
-              </>
-            )}
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineShop size={20} style={iconStyle} />
+              <LinkContainer to="/transaksi" onClick={handleDataTransaksiClick}>
+                <NavDropdown.Item>Data Transaksi</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
+
+            <ListGroup.Item style={listItemStyle}>
+              <AiOutlineShop size={20} style={iconStyle} />
+              <LinkContainer to="/pos" onClick={handleDataTransaksiClick}>
+                <NavDropdown.Item>pos</NavDropdown.Item>
+              </LinkContainer>
+            </ListGroup.Item>
           </ListGroup>
         </div>
 

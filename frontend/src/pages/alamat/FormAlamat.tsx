@@ -10,7 +10,7 @@ function FormAlamat() {
   const [districts, setDistricts] = useState<{ id: string; name: string }[]>([])
   const [selectedDistrict, setSelectedDistrict] = useState('')
   const [villages, setVillages] = useState<{ id: string; name: string }[]>([])
-  const [selectedVillage, setSelectedVillage] = useState('') // Add this line
+  const [selectedVillage, setSelectedVillage] = useState('')
 
   useEffect(() => {
     fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')

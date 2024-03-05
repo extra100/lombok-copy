@@ -3,7 +3,7 @@ import { Button, Container, Form } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import LoadingBox from '../components/LoadingBox'
+// import LoadingBox from '../components/LoadingBox'
 import UserContext from '../contexts/UserContext'
 
 import { useSigninMutation } from '../hooks/userHooks'
@@ -18,7 +18,7 @@ export default function SigninPage() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [id_outlet, setIdOutlet] = useState('') // Initialize id_outlet state
+  const [id_outlet, setIdOutlet] = useState('')
 
   const { state, dispatch } = useContext(Store)
   const { userInfo } = state
@@ -41,7 +41,6 @@ export default function SigninPage() {
         id_outlet,
       })
 
-      // Set user ke dalam context
       setUser(data)
 
       dispatch({ type: 'USER_SIGNIN', payload: data })
@@ -82,10 +81,8 @@ export default function SigninPage() {
           />
         </Form.Group>
         <div className="mb-3">
-          <Button disabled={isLoading} type="submit">
-            Sign In
-          </Button>
-          {isLoading && <LoadingBox />}
+          <Button type="submit">Sign In</Button>
+          {/* {isLoading && <LoadingBox />} */}
         </div>
         <div className="mb-3">
           New customer?{' '}

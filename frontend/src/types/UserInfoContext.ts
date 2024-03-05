@@ -1,5 +1,3 @@
-// UserInfoContextType.tsx
-
 import { UserInfo } from './UserInfo'
 import React from 'react'
 

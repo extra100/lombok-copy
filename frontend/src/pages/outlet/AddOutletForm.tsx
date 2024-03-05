@@ -8,7 +8,7 @@ import {
 import { Outlet } from '../../types/Outlet'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { useGetProductsQuery } from '../../hooks/productHooks'
+
 import {
   useAddStokMutation,
   useUpdateStokMutation,

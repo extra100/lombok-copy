@@ -7,8 +7,7 @@ import {
 import { Outlet } from '../../types/Outlet'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { useGetProductsQuery } from '../../hooks/productHooks'
-import { useAddStokMutation } from '../../hooks/stokHooks'
+
 // import { Collection } from 'mongoose'
 const AddOutletForm: React.FC = () => {
   const [lekukan] = Form.useForm()

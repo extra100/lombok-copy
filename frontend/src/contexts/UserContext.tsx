@@ -1,16 +1,3 @@
-// // UserContext.tsx
-
-// import React from 'react'
-// import { UserInfoContextType } from '../types/UserInfoContext'
-
-// const UserContext = React.createContext<UserInfoContextType | undefined>(
-//   undefined
-// )
-
-// export default UserContext
-
-// UserContext.tsx
-
 import React, { useContext } from 'react'
 import { UserInfoContextType } from '../types/UserInfoContext'
 
