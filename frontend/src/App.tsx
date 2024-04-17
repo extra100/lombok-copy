@@ -144,50 +144,15 @@ function App() {
                     <i className="fas fa-bars"></i>
                   </Link>
 
-                  {/* <Link
-                    className="nav-link header-link p-1 px-3"
-                    to={`/penjualankledo`}
-                  >
-                    History Jual
-                  </Link>}
                   <Link
                     className="nav-link header-link p-1 px-3"
-                    to={`/pembelian`}
+                    to={`/finance/invoices`}
                   >
-                    List Tagihan Pembelian
+                    Finance Invoice
                   </Link>
-                  <Link
-                    className="nav-link header-link p-1 px-3"
-                    to={`/pemesananpembelian`}
-                  >
-                    List Pemesanan Pembelian
+                  <Link className="nav-link header-link p-1 px-3" to={`/banks`}>
+                    Kas Penjualan
                   </Link>
-                  <Link
-                    className="nav-link header-link p-1 px-3"
-                    to={`/pesolist`}
-                  >
-                    History Peso
-                  </Link>
-
-                  <Link
-                    className="nav-link header-link p-1 px-3"
-                    to={`/pindah`}
-                  >
-                    Mutasi
-                  </Link>
-
-                  <Link
-                    className="nav-link header-link p-1 px-3"
-                    to={`/posdua`}
-                  >
-                    Jual
-                  </Link>
-                  <Link className="nav-link header-link p-1 px-3" to={`/peso`}>
-                    Penyesuaian Stok
-                  </Link>
-                  <Link className="nav-link header-link p-1 px-3" to={`/akuna`}>
-                    Tambah Biaya
-                  </Link> */}
                 </div>
               </div>
               <div
@@ -456,6 +421,15 @@ function App() {
             <AiOutlineShop size={20} style={iconStyle} />
             <LinkContainer to="/banks" onClick={handleDataTransaksiClick}>
               <NavDropdown.Item>Banks</NavDropdown.Item>
+            </LinkContainer>
+          </ListGroup.Item>
+          <ListGroup.Item style={listItemStyle}>
+            <AiOutlineShop size={20} style={iconStyle} />
+            <LinkContainer
+              to="/finance/invoices"
+              onClick={handleDataTransaksiClick}
+            >
+              <NavDropdown.Item>Finance Invoices</NavDropdown.Item>
             </LinkContainer>
           </ListGroup.Item>
         </div>
