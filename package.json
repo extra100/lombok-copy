@@ -1,5 +1,5 @@
 {
-  "name": "lombokextra",
+  "name": "lombok-copy",
   "version": "1.0.0",
   "description": "A description of your project",
   "main": "index.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/extra100/lombokextra.git"
+    "url": "git+https://github.com/extra100/lombok-copy.git"
   },
   "author": "Your Name <your.email@example.com>",
   "license": "ISC",
@@ -24,9 +24,9 @@
     "node": ">=18.18.2"
   },
   "bugs": {
-    "url": "https://github.com/extra100/lombokextra/issues"
+    "url": "https://github.com/extra100/lombok-copy/issues"
   },
-  "homepage": "https://github.com/extra100/lombokextra#readme",
+  "homepage": "https://github.com/extra100/lombok-copy#readme",
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
