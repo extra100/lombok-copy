@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Form } from 'antd'
-import {} from '../../hooks/hargaHooks'
+// import {} from '../../hooks/hargaHooks'
 
 import { Outlet } from '../../types/Outlet'
 import { useNavigate } from 'react-router-dom'
-import Search from '../Search'
+// import Search from '../Search'
 import OutletTable from './OutletTable'
 import ToggleOutlet from './ToggleOutlet'
 import {
@@ -89,7 +89,7 @@ const OutletPage: React.FC = () => {
         toggleshowIdH={toggleshowIdH}
         toggleshowA={toggleshowA}
       />
-      <Search onSearch={handleSearch} />
+      {/* <Search onSearch={handleSearch} /> */}
       <OutletTable
         form2hereOneAtPage={bentuk}
         asal={filteredData}

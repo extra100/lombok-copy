@@ -9,20 +9,20 @@ import { Outlet } from '../../types/Outlet'
 import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlinePlus } from 'react-icons/ai'
 
-import {
-  useAddStokMutation,
-  useUpdateStokMutation,
-  useUpdateStokMutations,
-} from '../../hooks/stokHooks'
+// import {
+//   useAddStokMutation,
+//   useUpdateStokMutation,
+//   useUpdateStokMutations,
+// } from '../../hooks/stokHooks'
 import { Collection } from 'mongoose'
 const AddOutletForm: React.FC = () => {
   const [lekukan] = Form.useForm()
   const { data, isLoading } = useGetoutletsQuery()
   const [adding, setAdding] = useState(false)
   const addOutletMutation = useAddoutletMutation()
-  const { data: products } = useGetProductsQuery()
+  // const { data: products } = useGetProductsQuery()
 
-  const addStok = useAddStokMutation()
+  // const addStok = useAddStokMutation()
   const navigate = useNavigate()
   const handleAddOutlet = () => {
     lekukan.resetFields()
@@ -49,34 +49,34 @@ const AddOutletForm: React.FC = () => {
     }
   }, [isLoading])
 
-  const saveNewOutlet = async () => {
-    try {
-      const row = (await lekukan.validateFields()) as Outlet
-      const newOutlet: Outlet = { ...row }
-      const createdOutlet = await addOutletMutation.mutateAsync(newOutlet)
+  // const saveNewOutlet = async () => {
+  //   try {
+  //     const row = (await lekukan.validateFields()) as Outlet
+  //     const newOutlet: Outlet = { ...row }
+  //     const createdOutlet = await addOutletMutation.mutateAsync(newOutlet)
 
-      const outletId = createdOutlet.data._id
+  //     const outletId = createdOutlet.data._id
 
-      if (products && products.length) {
-        const newStoks = products.map((product: any) => ({
-          _id: '',
-          id_stok: '0',
-          id_usaha: '0',
-          id_data_barang: product._id,
-          id_outlet: outletId,
-          jumlah_stok: 100,
-        }))
+  //     if (products && products.length) {
+  //       const newStoks = products.map((product: any) => ({
+  //         _id: '',
+  //         id_stok: '0',
+  //         id_usaha: '0',
+  //         id_data_barang: product._id,
+  //         id_outlet: outletId,
+  //         jumlah_stok: 100,
+  //       }))
 
-        for (let stok of newStoks) {
-          await addStok.mutateAsync(stok)
-        }
-        message.success('Stock added successfully!')
-      }
+  //       for (let stok of newStoks) {
+  //         await addStok.mutateAsync(stok)
+  //       }
+  //       message.success('Stock added successfully!')
+  //     }
 
-      setAdding(false)
-      navigate('/outlet')
-    } catch (errInfo) {}
-  }
+  //     setAdding(false)
+  //     navigate('/outlet')
+  //   } catch (errInfo) {}
+  // }
   if (!Array.isArray(data) || data.length === 0) {
     return <div>No data available.</div>
   }
@@ -186,7 +186,7 @@ const AddOutletForm: React.FC = () => {
           <Col>
             <Button
               type="primary"
-              onClick={saveNewOutlet}
+              // onClick={saveNewOutlet}
               style={{ marginRight: 8 }}
             >
               Save

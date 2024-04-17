@@ -4,8 +4,6 @@ import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import path from 'path'
 
-import { keyRouter } from './routers/keyRouter'
-
 import { userRouter } from './routers/userRouter'
 
 dotenv.config()
@@ -32,8 +30,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/users', userRouter)
-
-app.use('/api/keys', keyRouter)
 
 console.log(path.join(__dirname, 'frontend/dist'))
 
