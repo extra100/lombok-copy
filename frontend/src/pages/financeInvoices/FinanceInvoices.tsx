@@ -154,24 +154,24 @@ function FinanceInvoices() {
       render: (warehouse: { id: string; name: string }) => warehouse.name,
     },
     {
-      title: 'Total',
+      title: 'Total Transaksi',
       dataIndex: 'allAmount',
       key: 'allAmount',
       render: (totalAmount: number) => totalAmount.toLocaleString(),
     },
-
+    {
+      title: 'Uang Masuk',
+      dataIndex: 'paid',
+      key: 'paid',
+      render: (due: number) => due.toLocaleString(),
+    },
     {
       title: 'Sisa Tagihan',
       dataIndex: 'allDue',
       key: 'allDue',
       render: (due: number) => due.toLocaleString(),
     },
-    {
-      title: 'Terbayar',
-      dataIndex: 'paid',
-      key: 'paid',
-      render: (due: number) => due.toLocaleString(),
-    },
+
     {
       title: 'Nilai Material',
       dataIndex: 'productValue',
