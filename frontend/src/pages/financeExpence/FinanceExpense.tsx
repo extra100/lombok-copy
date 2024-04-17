@@ -1,32 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, DatePicker, Button, Popover, Select } from 'antd'
 import moment, { Moment } from 'moment'
-import { useFetchData } from '../fetch/Fetch'
+import { useFetchBankTrans } from '../fetch/useFetchBankTrans'
 import { fetchWareHouses } from '../warehouse'
-import { useFinanceWarehouses } from '../FinanceWarehouses'
-import { useFetchKasPenjualan } from '../KasPenjualan'
-import Banks from '../banks/Banks'
-
-const { Option } = Select
-const { RangePicker } = DatePicker
+import { financeContact } from '../FinanceContact'
+import { useFetchExpense } from './FetchFinanceExpense'
 
 interface Invoice {
-  key: string
-  amount_after_tax: number
-  trans_date: string
-  due: number
-  warehouse_id: number
-  warehouse: {
+  contact_id: string
+  due: string
+  include_stats: string
+
+  tags: {
     id: number
     name: string
   }
+  contact_groups: number
+  trans_date: number
+  amount_after_tax: number
+  ref_number: number
+  paid_date: number
+  product_id: number
 }
 
-function FinanceInvoices() {
-  const { loading, invoiceData } = useFetchData()
-  const { wh } = fetchWareHouses()
+function FinanceExpense() {
+  const { loading: bankTransLoading, invoiceData } = useFetchExpense()
 
-  const { financewarehouses } = useFinanceWarehouses()
+  const { loading: contactLoading, contacts } = financeContact()
 
   const [selectedWarehouses, setSelectedWarehouses] = useState<string[]>([])
   const [popoverVisible, setPopoverVisible] = useState<boolean>(false)
@@ -35,8 +35,8 @@ function FinanceInvoices() {
     null,
   ])
 
-  const handleWarehouseChange = (two: string[]) => {
-    setSelectedWarehouses(two)
+  const handleWarehouseChange = (selectedNames: string[]) => {
+    setSelectedWarehouses(selectedNames)
   }
 
   const handleFilterClick = () => {
@@ -46,8 +46,9 @@ function FinanceInvoices() {
   const handlePopoverVisibleChange = (open: boolean) => {
     setPopoverVisible(open)
   }
-  const formatDate = (three: Moment | null) =>
-    three ? three.format('YYYY-MM-DD') : null
+
+  const formatDate = (date: Moment | null) =>
+    date ? date.format('YYYY-MM-DD') : null
 
   const filteredData = invoiceData.filter((item: Invoice) => {
     const startDate =
@@ -60,7 +61,7 @@ function FinanceInvoices() {
 
     const isWarehouseMatch =
       selectedWarehouses.length === 0 ||
-      selectedWarehouses.includes(item.warehouse.name)
+      selectedWarehouses.includes(item.tags.name.toString())
 
     return isDateMatch && isWarehouseMatch
   })
@@ -68,123 +69,95 @@ function FinanceInvoices() {
   const groupedData: {
     [key: string]: { amount_after_tax: number; due: number }
   } = filteredData.reduce((acc: any, item: Invoice) => {
-    const { warehouse_id, amount_after_tax, due } = item
-    acc[warehouse_id] = acc[warehouse_id] || { amount_after_tax: 0, due: 0 }
-    acc[warehouse_id].amount_after_tax += amount_after_tax
-    acc[warehouse_id].due += due
+    const { contact_id, amount_after_tax } = item
+    acc[contact_id] = acc[contact_id] || {
+      amount_after_tax: 0,
+      due: 0,
+    }
+    acc[contact_id].amount_after_tax += amount_after_tax
+
     return acc
   }, {})
 
   const summaryData = Object.entries(groupedData).map(
-    ([warehouseId, { amount_after_tax, due }], index) => {
-      const warehouseIdNumber = parseInt(warehouseId, 10)
-      const foundWarehouse = wh.find(
-        (item: any) => item.id === warehouseIdNumber
+    ([contactId, { amount_after_tax }], index) => {
+      const contactIdNumber = parseInt(contactId, 10)
+      const foundContact = contacts.find(
+        (contact) => contact.id === contactIdNumber
       )
-      const warehouseName: any = foundWarehouse
-        ? foundWarehouse.name
-        : `Outlet ${warehouseId}`
+
+      let contactName = ''
+      if (foundContact) {
+        const underscoreIndex = foundContact.name.indexOf('_')
+        if (underscoreIndex !== -1) {
+          contactName = foundContact.name.substring(0, underscoreIndex)
+        } else {
+          contactName = foundContact.name
+        }
+      } else {
+        contactName = `id pelanggan ${contactId}`
+      }
+
       return {
         key: index.toString(),
-        warehouse: { id: warehouseIdNumber, name: warehouseName as any },
+        contak: {
+          id: contactIdNumber,
+          name: contactName,
+        },
         allAmount: amount_after_tax,
-        allAmountDebt: amount_after_tax,
-        allDue: due,
-        paid: amount_after_tax - due,
       }
     }
   )
-  const summaryDataWithProductValue = summaryData.map((item) => {
-    const foundWarehouse = financewarehouses.find(
-      (warehouse) => warehouse.id === item.warehouse.id
+
+  const totalAmountByPrefix: { [key: string]: number } = {}
+
+  Object.entries(groupedData).forEach(([contactId, { amount_after_tax }]) => {
+    const contactIdNumber = parseInt(contactId, 10)
+    const foundContact = contacts.find(
+      (contact) => contact.id === contactIdNumber
     )
-    return {
-      ...item,
-      productValue: foundWarehouse ? foundWarehouse.product_val : 0,
-      id: foundWarehouse ? foundWarehouse.id : 0,
+
+    let contactName = ''
+    if (foundContact) {
+      const underscoreIndex = Math.max(foundContact.name.indexOf('_'))
+      if (underscoreIndex !== -1) {
+        contactName = foundContact.name.substring(0, underscoreIndex)
+      } else {
+        contactName = foundContact.name
+      }
+    } else {
+      contactName = `id pelanggan ${contactId}`
+    }
+
+    if (contactName in totalAmountByPrefix) {
+      totalAmountByPrefix[contactName] += amount_after_tax
+    } else {
+      totalAmountByPrefix[contactName] = amount_after_tax
     }
   })
 
-  const reallyAll: { amount_after_tax: number; due: number } =
-    filteredData.reduce(
-      (acc: any, item: Invoice) => {
-        acc.amount_after_tax += item.amount_after_tax
-        acc.due += item.due
-        return acc
+  const summaryDataSource = Object.entries(totalAmountByPrefix).map(
+    ([name, totalAmount], index) => ({
+      key: index.toString(),
+      contak: {
+        id: index.toString(),
+        name: name,
       },
-      { amount_after_tax: 0, due: 0 }
-    )
-
-  const summaryAll = [
-    {
-      key: 'total',
-      warehouse: { id: 'total', name: 'Total' },
-      allAmount: reallyAll.amount_after_tax,
-      allDue: reallyAll.due,
-      paid: reallyAll.amount_after_tax - reallyAll.due,
-    },
-  ]
-
-  const totalAll = summaryData.reduce(
-    (acc, item) => {
-      acc.allAmount += item.allAmount
-      acc.allDue += item.allDue
-      acc.paid += item.paid
-      return acc
-    },
-    { allAmount: 0, allDue: 0, paid: 0 }
+      allAmount: totalAmount,
+    })
   )
-  const saringData = invoiceData.filter((x: Invoice) => {
-    const awal = dateRange && dateRange[0] ? formatDate(dateRange[0]) : null
-    const akhir = dateRange && dateRange[1] ? formatDate(dateRange[1]) : null
-
-    const cocokTanggal =
-      (!awal || moment(x.trans_date).isSameOrBefore(awal, 'day')) &&
-      (!akhir || moment(x.trans_date).isSameOrAfter(akhir, 'day'))
-
-    const cocokWh =
-      selectedWarehouses.length === 0 ||
-      selectedWarehouses.includes(x.warehouse.name)
-    return cocokTanggal && cocokWh
-  })
-
   const columns = [
     {
       title: 'Outlet',
-      dataIndex: 'warehouse',
-      key: 'warehouse',
-      render: (warehouse: { id: string; name: string }) => warehouse.name,
+      dataIndex: 'contak',
+      key: 'contak',
+      render: (contak: { id: string; name: string }) => contak.name,
     },
     {
       title: 'Total',
       dataIndex: 'allAmount',
       key: 'allAmount',
       render: (totalAmount: number) => totalAmount.toLocaleString(),
-    },
-    {
-      title: 'pembayaran Piutang',
-      dataIndex: 'allAmountDebt',
-      key: 'allAmountDebt',
-      render: (totalAmount: number) => totalAmount.toLocaleString(),
-    },
-
-    {
-      title: 'Sisa Tagihan',
-      dataIndex: 'allDue',
-      key: 'allDue',
-      render: (due: number) => due.toLocaleString(),
-    },
-    {
-      title: 'Terbayar',
-      dataIndex: 'paid',
-      key: 'paid',
-      render: (due: number) => due.toLocaleString(),
-    },
-    {
-      title: 'Nilai Material',
-      dataIndex: 'productValue',
-      key: 'productValue',
-      render: (productValue: any) => productValue.toLocaleString(),
     },
   ]
 
@@ -193,19 +166,19 @@ function FinanceInvoices() {
       <Popover
         content={
           <div>
-            <RangePicker onChange={(dates) => setDateRange(dates as any)} />
+            <DatePicker onChange={(dates) => setDateRange(dates as any)} />
             <Select
               mode="multiple"
               placeholder="Pilih Outlet"
               style={{ width: '100%', marginTop: 8 }}
               onChange={handleWarehouseChange}
             >
-              {wh.map((warehouse) => (
+              {/* {wh.map((contak) => (
                 <Option
-                  key={warehouse.id}
-                  value={warehouse.name}
-                >{`Outlet ${warehouse.name}`}</Option>
-              ))}
+                  key={contak.id}
+                  value={contak.name}
+                >{`Outlet ${contak.name}`}</Option>
+              ))} */}
             </Select>
           </div>
         }
@@ -236,39 +209,11 @@ function FinanceInvoices() {
       </Popover>
       <Table
         columns={columns}
-        dataSource={summaryDataWithProductValue}
-        loading={loading}
+        dataSource={summaryData}
+        loading={bankTransLoading || contactLoading}
       />
-      <div className="ant-row mt-3" style={{ fontSize: '13px' }}>
-        <div className="ant-col ant-col-10 ant-col-offset-6 text-right font-weight-bold">
-          <span>Total Pembayaran Diterima</span>
-        </div>
-        <div className="ant-col ant-col-8 text-right font-weight-bold">
-          <span className="total-amount">
-            {totalAll.allAmount.toLocaleString()}
-          </span>
-        </div>
-      </div>
-      <div className="ant-row mt-3" style={{ fontSize: '13px' }}>
-        <div className="ant-col ant-col-10 ant-col-offset-6 text-right font-weight-bold">
-          <span>Total Terhutang</span>
-        </div>
-        <div className="ant-col ant-col-8 text-right font-weight-bold">
-          <span className="total-amount">
-            {totalAll.allDue.toLocaleString()}
-          </span>
-        </div>
-      </div>
-      <div className="ant-row mt-3" style={{ fontSize: '13px' }}>
-        <div className="ant-col ant-col-10 ant-col-offset-6 text-right font-weight-bold">
-          <span>Terbayar</span>
-        </div>
-        <div className="ant-col ant-col-8 text-right font-weight-bold">
-          <span className="total-amount">{totalAll.paid.toLocaleString()}</span>
-        </div>
-      </div>
     </div>
   )
 }
 
-export default FinanceInvoices
+export default FinanceExpense

@@ -4,8 +4,6 @@ import moment, { Moment } from 'moment'
 import { useFetchData } from '../fetch/Fetch'
 import { fetchWareHouses } from '../warehouse'
 import { useFinanceWarehouses } from '../FinanceWarehouses'
-import { useFetchKasPenjualan } from '../KasPenjualan'
-import Banks from '../banks/Banks'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -88,7 +86,7 @@ function FinanceInvoices() {
         key: index.toString(),
         warehouse: { id: warehouseIdNumber, name: warehouseName as any },
         allAmount: amount_after_tax,
-        allAmountDebt: amount_after_tax,
+
         allDue: due,
         paid: amount_after_tax - due,
       }
@@ -159,12 +157,6 @@ function FinanceInvoices() {
       title: 'Total',
       dataIndex: 'allAmount',
       key: 'allAmount',
-      render: (totalAmount: number) => totalAmount.toLocaleString(),
-    },
-    {
-      title: 'pembayaran Piutang',
-      dataIndex: 'allAmountDebt',
-      key: 'allAmountDebt',
       render: (totalAmount: number) => totalAmount.toLocaleString(),
     },
 

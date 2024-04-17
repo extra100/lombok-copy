@@ -153,6 +153,12 @@ function App() {
                   <Link className="nav-link header-link p-1 px-3" to={`/banks`}>
                     Kas Penjualan
                   </Link>
+                  <Link
+                    className="nav-link header-link p-1 px-3"
+                    to={`/finance/expenses`}
+                  >
+                    Expenses
+                  </Link>
                 </div>
               </div>
               <div

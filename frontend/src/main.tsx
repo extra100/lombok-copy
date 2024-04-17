@@ -24,6 +24,7 @@ import BankTrans from './pages/banks/BankTrans'
 
 import Aneh from './pages/complicatedTable'
 import Banks from './pages/banks/Banks'
+import FinanceExpense from './pages/financeExpence/FinanceExpense'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
         <Route path="/finance/invoices" element={<FinanceInvoices />} />
         <Route path="/bankTrans" element={<BankTrans />} />
         <Route path="/table" element={<Aneh />} />
+        <Route path="/finance/expenses" element={<FinanceExpense />} />
       </Route>
     </Route>
   )
