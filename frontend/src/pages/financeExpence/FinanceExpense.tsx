@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Table, DatePicker, Button, Popover, Select } from 'antd'
 import moment, { Moment } from 'moment'
-import { useFetchBankTrans } from '../fetch/useFetchBankTrans'
+
 import { fetchWareHouses } from '../warehouse'
-import { financeContact } from '../FinanceContact'
+import { useFinanceWarehouses } from '../FinanceWarehouses'
 import { useFetchExpense } from './FetchFinanceExpense'
+
+const { Option } = Select
+const { RangePicker } = DatePicker
 
 interface Invoice {
   contact_id: string
@@ -24,9 +27,8 @@ interface Invoice {
 }
 
 function FinanceExpense() {
-  const { loading: bankTransLoading, invoiceData } = useFetchExpense()
-
-  const { loading: contactLoading, contacts } = financeContact()
+  const { loading, invoiceData } = useFetchExpense()
+  console.log({ invoiceData })
 
   const [selectedWarehouses, setSelectedWarehouses] = useState<string[]>([])
   const [popoverVisible, setPopoverVisible] = useState<boolean>(false)
@@ -35,8 +37,8 @@ function FinanceExpense() {
     null,
   ])
 
-  const handleWarehouseChange = (selectedNames: string[]) => {
-    setSelectedWarehouses(selectedNames)
+  const handleWarehouseChange = (two: string[]) => {
+    setSelectedWarehouses(two)
   }
 
   const handleFilterClick = () => {
@@ -46,9 +48,8 @@ function FinanceExpense() {
   const handlePopoverVisibleChange = (open: boolean) => {
     setPopoverVisible(open)
   }
-
-  const formatDate = (date: Moment | null) =>
-    date ? date.format('YYYY-MM-DD') : null
+  const formatDate = (three: Moment | null) =>
+    three ? three.format('YYYY-MM-DD') : null
 
   const filteredData = invoiceData.filter((item: Invoice) => {
     const startDate =
@@ -61,103 +62,34 @@ function FinanceExpense() {
 
     const isWarehouseMatch =
       selectedWarehouses.length === 0 ||
-      selectedWarehouses.includes(item.tags.name.toString())
+      selectedWarehouses.includes(item.tags.name)
 
     return isDateMatch && isWarehouseMatch
   })
+  console.log({ filteredData })
 
-  const groupedData: {
-    [key: string]: { amount_after_tax: number; due: number }
-  } = filteredData.reduce((acc: any, item: Invoice) => {
-    const { contact_id, amount_after_tax } = item
-    acc[contact_id] = acc[contact_id] || {
-      amount_after_tax: 0,
-      due: 0,
-    }
-    acc[contact_id].amount_after_tax += amount_after_tax
-
-    return acc
-  }, {})
-
-  const summaryData = Object.entries(groupedData).map(
-    ([contactId, { amount_after_tax }], index) => {
-      const contactIdNumber = parseInt(contactId, 10)
-      const foundContact = contacts.find(
-        (contact) => contact.id === contactIdNumber
-      )
-
-      let contactName = ''
-      if (foundContact) {
-        const underscoreIndex = foundContact.name.indexOf('_')
-        if (underscoreIndex !== -1) {
-          contactName = foundContact.name.substring(0, underscoreIndex)
-        } else {
-          contactName = foundContact.name
-        }
-      } else {
-        contactName = `id pelanggan ${contactId}`
-      }
-
-      return {
-        key: index.toString(),
-        contak: {
-          id: contactIdNumber,
-          name: contactName,
-        },
-        allAmount: amount_after_tax,
-      }
-    }
-  )
-
-  const totalAmountByPrefix: { [key: string]: number } = {}
-
-  Object.entries(groupedData).forEach(([contactId, { amount_after_tax }]) => {
-    const contactIdNumber = parseInt(contactId, 10)
-    const foundContact = contacts.find(
-      (contact) => contact.id === contactIdNumber
-    )
-
-    let contactName = ''
-    if (foundContact) {
-      const underscoreIndex = Math.max(foundContact.name.indexOf('_'))
-      if (underscoreIndex !== -1) {
-        contactName = foundContact.name.substring(0, underscoreIndex)
-      } else {
-        contactName = foundContact.name
-      }
-    } else {
-      contactName = `id pelanggan ${contactId}`
-    }
-
-    if (contactName in totalAmountByPrefix) {
-      totalAmountByPrefix[contactName] += amount_after_tax
-    } else {
-      totalAmountByPrefix[contactName] = amount_after_tax
-    }
-  })
-
-  const summaryDataSource = Object.entries(totalAmountByPrefix).map(
-    ([name, totalAmount], index) => ({
-      key: index.toString(),
-      contak: {
-        id: index.toString(),
-        name: name,
-      },
-      allAmount: totalAmount,
-    })
-  )
   const columns = [
     {
-      title: 'Outlet',
-      dataIndex: 'contak',
-      key: 'contak',
-      render: (contak: { id: string; name: string }) => contak.name,
+      title: 'Nama Tag',
+      dataIndex: 'tags',
+      key: 'tags',
+      render: (tags: any[]) => (
+        <>
+          {tags.map((tag) => (
+            <div key={tag.id}>{tag.name}</div>
+          ))}
+        </>
+      ),
     },
     {
-      title: 'Total',
-      dataIndex: 'allAmount',
-      key: 'allAmount',
-      render: (totalAmount: number) => totalAmount.toLocaleString(),
+      title: 'Total Transaksi',
+      dataIndex: 'amount_after_tax',
+      key: 'amount_after_tax',
+    },
+    {
+      title: 'Kontak ID',
+      dataIndex: 'contact_id',
+      key: 'contact_id',
     },
   ]
 
@@ -166,20 +98,7 @@ function FinanceExpense() {
       <Popover
         content={
           <div>
-            <DatePicker onChange={(dates) => setDateRange(dates as any)} />
-            <Select
-              mode="multiple"
-              placeholder="Pilih Outlet"
-              style={{ width: '100%', marginTop: 8 }}
-              onChange={handleWarehouseChange}
-            >
-              {/* {wh.map((contak) => (
-                <Option
-                  key={contak.id}
-                  value={contak.name}
-                >{`Outlet ${contak.name}`}</Option>
-              ))} */}
-            </Select>
+            <RangePicker onChange={(dates) => setDateRange(dates as any)} />
           </div>
         }
         trigger="click"
@@ -207,11 +126,7 @@ function FinanceExpense() {
           <span>Filter</span>
         </Button>
       </Popover>
-      <Table
-        columns={columns}
-        dataSource={summaryData}
-        loading={bankTransLoading || contactLoading}
-      />
+      <Table columns={columns} dataSource={filteredData} loading={loading} />
     </div>
   )
 }

@@ -22,6 +22,7 @@ interface Invoice {
 
 function FinanceInvoices() {
   const { loading, invoiceData } = useFetchData()
+  console.log({ invoiceData })
   const { wh } = fetchWareHouses()
 
   const { financewarehouses } = useFinanceWarehouses()
