@@ -30,7 +30,7 @@ function Banks() {
   const combinedTransactions: BankTransaction[] = []
   for (const key in groupedTransactions) {
     const transactions = groupedTransactions[key]
-    const sortedTransactions = transactions.sort((a, b) => {
+    const sortedTransactions = transactions.sort((a: any, b) => {
       const dateA = new Date(a.trans_date).getTime()
       const dateB = new Date(b.trans_date).getTime()
       return dateA - dateB
@@ -42,8 +42,8 @@ function Banks() {
       .reduce((total, transaction) => total + transaction.amount_after_tax, 0)
     combinedTransactions.push({
       ...firstTransaction,
-      amount_masuk: uangMasuk,
-      amount_hutang: hutang,
+      amount_after_tax: uangMasuk,
+      amount: hutang,
     })
   }
 
@@ -67,20 +67,15 @@ function Banks() {
     },
     {
       title: 'Uang Masuk',
-      dataIndex: 'amount_masuk',
-      key: 'amount_masuk',
-      render: (amount_masuk: number) => amount_masuk.toLocaleString(),
+      dataIndex: 'amount_after_tax',
+      key: 'amount_after_tax',
+      render: (amount_after_tax: number) => amount_after_tax.toLocaleString(),
     },
     {
       title: 'Pembayaran Piutang',
-      dataIndex: 'amount_hutang',
-      key: 'amount_hutang',
-      render: (amount_hutang: number) => amount_hutang.toLocaleString(),
-    },
-    {
-      title: 'Tanggal',
-      dataIndex: 'trans_date',
-      key: 'trans_date',
+      dataIndex: 'amount',
+      key: 'amount',
+      render: (amount: number) => amount.toLocaleString(),
     },
   ]
 
