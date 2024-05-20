@@ -33,21 +33,6 @@ outletRouter.post(
     res.status(201).json(justHarga)
   })
 )
-// outletRouter.post(
-//   '/',
-//   asyncHandler(async (req, res) => {
-//     const beudoang = req.body
-
-//     // Menciptakan entri baru
-//     const justHarga = await OutletModel.create(beudoang)
-
-//     // Mengatur nilai id_outlet sama dengan _id
-//     justHarga.id_outlet = justHarga._id.toString()
-//     await justHarga.save()
-
-//     res.status(201).json(justHarga)
-//   })
-// )
 
 outletRouter.put(
   '/:edi',
@@ -61,7 +46,7 @@ outletRouter.put(
       justHere.nama_outlet = nama_outlet || justHere.nama_outlet
       justHere.bm = bm || justHere.bm
       justHere.lokasi = lokasi || justHere.lokasi
-      // justHere.id_usaha = id_usaha || justHere.id_usaha
+
       justHere.cp = cp || justHere.cp
 
       const silahkanBebas = await justHere.save()

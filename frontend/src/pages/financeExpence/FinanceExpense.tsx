@@ -48,6 +48,7 @@ function FinanceExpense() {
   const handlePopoverVisibleChange = (open: boolean) => {
     setPopoverVisible(open)
   }
+
   const formatDate = (three: Moment | null) =>
     three ? three.format('YYYY-MM-DD') : null
 
@@ -68,28 +69,33 @@ function FinanceExpense() {
   })
   console.log({ filteredData })
 
+  const tagAmountMap: { [tagName: string]: number } = {}
+
+  // filteredData.forEach((item: Invoice) => {
+  //   item.tags.forEach((tag) => {
+  //     const tagName = tag.name
+  //     const amountAfterTax = item.amount_after_tax
+  //     tagAmountMap[tagName] = (tagAmountMap[tagName] || 0) + amountAfterTax
+  //   })
+  // })
+
+  const dataSource = Object.keys(tagAmountMap).map((tagName) => ({
+    tagName,
+    totalAmount: tagAmountMap[tagName],
+  }))
+
+  console.log({ dataSource })
+
   const columns = [
     {
       title: 'Nama Tag',
-      dataIndex: 'tags',
-      key: 'tags',
-      render: (tags: any[]) => (
-        <>
-          {tags.map((tag) => (
-            <div key={tag.id}>{tag.name}</div>
-          ))}
-        </>
-      ),
+      dataIndex: 'tagName',
+      key: 'tagName',
     },
     {
       title: 'Total Transaksi',
-      dataIndex: 'amount_after_tax',
-      key: 'amount_after_tax',
-    },
-    {
-      title: 'Kontak ID',
-      dataIndex: 'contact_id',
-      key: 'contact_id',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
     },
   ]
 
@@ -126,7 +132,7 @@ function FinanceExpense() {
           <span>Filter</span>
         </Button>
       </Popover>
-      <Table columns={columns} dataSource={filteredData} loading={loading} />
+      <Table columns={columns} dataSource={dataSource} loading={loading} />
     </div>
   )
 }

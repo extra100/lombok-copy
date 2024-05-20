@@ -1,0 +1,129 @@
+{
+  "success": true,
+  "data": {
+    "id": 5484,
+    "business_tran_id": null,
+    "trans_type_id": 5,
+    "trans_date": "2024-04-22",
+    "due_date": "2024-04-22",
+    "contact_id": 3402,
+    "status_id": 3,
+    "ref_number": "INV/02051",
+    "amount": 1194000,
+    "amount_after_tax": 1194000,
+    "due": 0,
+    "payment_date": "2024-04-24",
+    "paid_date": "2024-04-24",
+    "items": [
+      {
+        "id": 10691,
+        "tran_id": 5484,
+        "finance_account_id": 506,
+        "trans_type_id": 5,
+        "tax_id": null,
+        "desc": "",
+        "qty": 5,
+        "price": 73500,
+        "price_after_tax": 73500,
+        "amount": 367500,
+        "amount_after_tax": 367500,
+        "discount_percent": 0,
+        "discount_amount": 0,
+        "additional_discount_amount": 0,
+        "taxable": 367500,
+        "tax": 0,
+        "subtotal": 367500,
+        "unit_id": 5,
+        "unit_conv": 1,
+        "discount_amount_input": "0.00000",
+        "product": {
+          "id": 506,
+          "name": "CANAL C75 A SJ",
+          "is_track": true,
+          "avg_base_price": 67900,
+          "base_price": 67900,
+          "code": "SKU/00504",
+          "bundle_type_id": 0,
+          "purchase_account_id": 131,
+          "sell_account_id": 121,
+          "unit_id": 5,
+          "pos_product_category_id": 4,
+          "wholesale_price": [
+            {
+              "price": 90900,
+              "min_qty": 1,
+              "use_discount_percent": 0
+            }
+          ],
+          "is_purchase": true,
+          "is_sell": true,
+          "formatted": "CANAL C75 A SJ",
+          "product_units": []
+        },
+        "item_tax": null,
+        "custom": null
+      }
+    ],
+    "transactions": [
+      {
+        "id": 5485,
+        "bank_account_id": 1,
+        "trans_date": "2024-04-24",
+        "trans_type_id": 17,
+        "memo": "",
+        "currency_rate": 1,
+        "amount_after_tax": 1194000,
+        "business_tran_id": 5484,
+        "bank_account": {
+          "id": 1,
+          "name": "KAS PENJUALAN_JAYA MANDIRI",
+          "ref_code": "1-10001",
+          "currency_id": null,
+          "parent_id": null,
+          "is_parent": 0
+        }
+      }
+    ],
+
+    "relations": [
+      {
+        "id": 5485,
+        "business_tran_id": null,
+        "trans_type_id": 17,
+        "trans_date": "2024-04-24",
+        "due_date": null,
+        "contact_id": 3402,
+        "status_id": 31,
+        "ref_number": null,
+        "amount": 1194000,
+        "amount_after_tax": 1194000,
+        "due": 0,
+        "bank_statement_id": null,
+        "bank_account_id": 1,
+        "balance": 560548394,
+        "position": "104.0000000000",
+        "pay_later": false,
+        "pay_from_finance_account_id": null,
+        "payment_id": null,
+        "include_tax": false,
+        "term_id": null,
+        "attachment": [],
+        "memo": "",
+        "desc": "Terima pembayaran tagihan: JAYA MANDIRI_PAK AKWAN INV/02051",
+        "tax": [],
+        "warehouse_id": null,
+        "discount_percent": 0,
+        "discount_amount": 0,
+        "additional_discount_percent": 0,
+        "additional_discount_amount": 0,
+        "total_tax": 0,
+        "subtotal": 1194000,
+
+        "trans_type": "Terima Pembayaran Tagihan"
+      }
+    ],
+
+    "message": "Tagihan berhasil diambil",
+    "time": 0.2
+  }
+}

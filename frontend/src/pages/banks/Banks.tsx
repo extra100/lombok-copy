@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
-import { Table, Input } from 'antd'
+import { Table, Input, Button } from 'antd'
 import { BankTransaction, useBankData } from './UseBankData'
+import {
+  useAddBankTransMutation,
+  useGetBankTransaksiQuery,
+} from '../../hooks/bankTransHooks'
 
 function Banks() {
   const { loading, pokemonData } = useBankData()
-
+  const addBankTransMutation = useAddBankTransMutation()
+  const getBankdata = useGetBankTransaksiQuery()
+  console.log({ getBankdata })
   const [contactSearchText, setContactSearchText] = useState('')
 
   const handleContactSearch = (e: any) => {
@@ -26,11 +32,12 @@ function Banks() {
     }
     groupedTransactions[transaction.desc].push(transaction)
   })
+  const [dataSource, setDataSource] = useState([])
 
   const combinedTransactions: BankTransaction[] = []
   for (const key in groupedTransactions) {
     const transactions = groupedTransactions[key]
-    const sortedTransactions = transactions.sort((a: any, b) => {
+    const sortedTransactions = transactions.sort((a: any, b: any) => {
       const dateA = new Date(a.trans_date).getTime()
       const dateB = new Date(b.trans_date).getTime()
       return dateA - dateB
@@ -47,17 +54,23 @@ function Banks() {
     })
   }
 
+  const handleSave = () => {
+    const dataToSave = combinedTransactions.map((row: any) => ({
+      desc: row.desc,
+      tags: row.tags.map((tag: any) => tag.name).join(', '),
+      amount_after_tax: row.amount_after_tax,
+      amount: row.amount,
+    }))
+
+    addBankTransMutation.mutate(dataToSave as any)
+  }
+
   const columns = [
     {
       title: 'Deskripsi',
       dataIndex: 'desc',
       key: 'desc',
-      // render: (desc: string) => {
-      //   const words = desc.split(' ')
-      //   return words[words.length - 1]
-      // },
     },
-
     {
       title: 'Nama Tag',
       dataIndex: 'tags',
@@ -86,7 +99,9 @@ function Banks() {
         style={{ marginBottom: 16 }}
         onChange={handleContactSearch}
       />
-
+      <Button type="primary" onClick={handleSave} style={{ marginBottom: 16 }}>
+        Simpan
+      </Button>
       <Table
         columns={columns}
         dataSource={combinedTransactions}

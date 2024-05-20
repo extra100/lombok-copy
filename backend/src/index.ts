@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import path from 'path'
+import ruterbanke from './routers/bangkeRouter'
 
 import { userRouter } from './routers/userRouter'
 
@@ -30,6 +31,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/users', userRouter)
+app.use('/api/bankTransaksi', ruterbanke)
 
 console.log(path.join(__dirname, 'frontend/dist'))
 

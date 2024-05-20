@@ -143,12 +143,11 @@ function App() {
                   >
                     <i className="fas fa-bars"></i>
                   </Link>
-
                   <Link
                     className="nav-link header-link p-1 px-3"
                     to={`/finance/invoices`}
                   >
-                    Finance Invoice
+                    Finance
                   </Link>
                   <Link className="nav-link header-link p-1 px-3" to={`/banks`}>
                     Kas Penjualan
@@ -158,6 +157,36 @@ function App() {
                     to={`/finance/expenses`}
                   >
                     Expenses
+                  </Link>
+                  <Link
+                    className="nav-link header-link p-1 px-3"
+                    to={`/mentahFI`}
+                  >
+                    Mentah Invoice
+                  </Link>
+                  <Link className="nav-link header-link p-1 px-3" to={`/sss`}>
+                    Lengkap
+                  </Link>
+                  <Link className="nav-link header-link p-1 px-3" to={`/aat`}>
+                    AAT
+                  </Link>
+                  <Link
+                    className="nav-link header-link p-1 px-3"
+                    to={`/kaspenjualanpisah`}
+                  >
+                    kaspenjualanpisah
+                  </Link>
+                  <Link
+                    className="nav-link header-link p-1 px-3"
+                    to={`/stokgudang`}
+                  >
+                    Stok Outlet
+                  </Link>
+                  <Link
+                    className="nav-link header-link p-1 px-3"
+                    to={`/hargabarang`}
+                  >
+                    Jenis Harga
                   </Link>
                 </div>
               </div>
@@ -199,7 +228,7 @@ function App() {
                       {userInfo ? (
                         <NavDropdown
                           className="header-link"
-                          title={`Hello, ${userInfo.name}`}
+                          title={` ${userInfo.name}`}
                         >
                           <LinkContainer to="/profile">
                             <NavDropdown.Item>User Profile</NavDropdown.Item>
@@ -436,6 +465,12 @@ function App() {
               onClick={handleDataTransaksiClick}
             >
               <NavDropdown.Item>Finance Invoices</NavDropdown.Item>
+            </LinkContainer>
+          </ListGroup.Item>
+          <ListGroup.Item style={listItemStyle}>
+            <AiOutlineShop size={20} style={iconStyle} />
+            <LinkContainer to="/mentahFI" onClick={handleDataTransaksiClick}>
+              <NavDropdown.Item>Mentah Invoice</NavDropdown.Item>
             </LinkContainer>
           </ListGroup.Item>
         </div>
