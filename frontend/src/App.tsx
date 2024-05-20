@@ -143,7 +143,7 @@ function App() {
                   >
                     <i className="fas fa-bars"></i>
                   </Link>
-                  <Link
+                  {/* <Link
                     className="nav-link header-link p-1 px-3"
                     to={`/finance/invoices`}
                   >
@@ -175,7 +175,7 @@ function App() {
                     to={`/kaspenjualanpisah`}
                   >
                     kaspenjualanpisah
-                  </Link>
+                  </Link> */}
                   <Link
                     className="nav-link header-link p-1 px-3"
                     to={`/stokgudang`}
