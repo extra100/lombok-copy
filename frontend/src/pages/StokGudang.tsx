@@ -7,7 +7,7 @@ interface WarehouseItem {
 }
 
 const StokOutlet = () => {
-  const { loading, warehouseData } = useFetchDataKey()
+  const { warehouseData } = useFetchDataKey()
 
   const [searchText, setSearchText] = useState('')
   const columns = [
@@ -135,7 +135,7 @@ const StokOutlet = () => {
   )
 
   return (
-    <Spin spinning={loading}>
+    <>
       <Input
         style={{ marginBottom: '10px', width: '200px' }}
         placeholder="Cari produk..."
@@ -148,7 +148,7 @@ const StokOutlet = () => {
         columns={columns}
         rowKey={(record) => record.id}
       />
-    </Spin>
+    </>
   )
 }
 
